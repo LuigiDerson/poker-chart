@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+}
+
+.square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 16px;
+    height: 34px;
+    text-align: center;
+    width: 34px;
+  }
