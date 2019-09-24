@@ -1,7 +1,7 @@
 .table {
     background-color: green;
     width: 800px;
-    height: 600px;
+    height: 400px;
 }
 
 .players {
@@ -15,6 +15,11 @@
     flex-basis: 230px;
 }
 
+.user-wrapper {
+    flex-basis: 230px;
+    background-color: antiquewhite;
+}
+
 .player {
     background-color: white;
     width: 50px;
@@ -22,6 +27,7 @@
     border-radius: 50%;
     padding: .5rem;
     margin: 1rem;
+    text-align: center;
 }
 
 .current-player {

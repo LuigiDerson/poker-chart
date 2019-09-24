@@ -18,6 +18,24 @@ export default class TableHand extends React.Component {
         userPosition: 5
     }
 
+    newRound() {
+        this.setState((prevState) => ({
+            round: prevState.round + 1,
+            userPosition: checkRound(prevState.userPosition)
+        }))
+    }
+
+    checkGameStatus() {
+        const allFold = this.state.players.filter(pl => pl.name !== "BB")
+            .every(pl => pl.fold === true)
+        if ( this.state.players[this.state.userPosition].fold === true) {
+            this.newRound();
+            console.log("Round ends")
+        } else if (allFold) {
+            console.log("Round ends")
+        }
+    }
+
     handleOptionChosen = (option) => {
         const currentPlayer = this.state.players[this.state.turn];
         this.setState((prevState) => ({
@@ -29,20 +47,16 @@ export default class TableHand extends React.Component {
     }
 
     render() {
-        const turn = this.state.turn;
-        const user = this.state.userPosition;
-        const players = this.state.players;
-        const currentPlayer = this.state.players[this.state.turn];
         console.log(this.state.players)
         return (
             <div className="table">
                 <h1>Round: {this.state.round}</h1>
-                <p>Turn: {players[turn].name}</p>
                 <Player 
                     handleOption={this.handleOptionChosen}
-                    currentPlayer={currentPlayer}
-                    players={players}/>
-                <p>User position: {players[user].name}</p>
+                    currentPlayer={this.state.players[this.state.turn]}
+                    user={this.state.players[this.state.userPosition]}
+                    players={this.state.players}
+                />
             </div>
         );
     }
