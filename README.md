@@ -2,7 +2,7 @@
 
 ### Poker Chart
 
-The target of this app is manage all the opportunities you have in a poker game in the pre-flop state based on a chart table with dynamically changes when some player fold, raise or call on their turn.
+The target of this app is manage all the opportunities you have in a poker game in the pre-flop state based on a chart table which dynamically changes when some player fold, raise or call on their turn.
 
 -------------------------------------------------------------------------------------------------------------------------------
 
