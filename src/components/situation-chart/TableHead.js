@@ -1,7 +1,5 @@
-import React from 'react';
+import React from "react";
 
-const TableHead = (props) => (
-    <th className="square">{props.head}</th>
-);
+const TableHead = (props) => <th className="square">{props.head}</th>;
 
 export default TableHead;
