@@ -1,10 +1,8 @@
-import React from "react";
-import TableHead from "./TableHead";
-import TableData from "./TableData";
+import React from 'react'
+import TableHead from './TableHead'
+import TableData from './TableData'
 
-const TableRow = (props) => {
-  const head = props.head;
-  const data = props.data;
+const TableRow = ({ head, data }) => {
   return (
     <tr className="row">
       {<TableHead head={head} />}
@@ -12,7 +10,7 @@ const TableRow = (props) => {
         <TableData key={head + card} data={head + card} />
       ))}
     </tr>
-  );
-};
+  )
+}
 
-export default TableRow;
+export default TableRow
