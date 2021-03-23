@@ -1,44 +1,20 @@
-import React from "react";
-import TableRow from "./TableRow";
-import TableHead from "./TableHead";
+import React from 'react'
+import useTable from '../../hooks/useTable'
 
-export default class ChartTable extends React.Component {
-  renderTable() {
-    const cards = [
-      "A",
-      "K",
-      "Q",
-      "J",
-      "T",
-      "9",
-      "8",
-      "7",
-      "6",
-      "5",
-      "4",
-      "3",
-      "2",
-    ];
-    const rows = [
-      <tr key={"header"} className="row">
-        <th className="square"></th>
-        {cards.map(
-          (card, index) => (
-            <TableHead key={index} head={card} />
-          ) // Modify Later (Try in TableRow)
-        )}
-      </tr>,
-    ];
-    for (let i = 0; i < cards.length; i++) {
-      rows.push(<TableRow key={cards[i]} head={cards[i]} data={cards} />);
-    }
-    return rows;
-  }
-  render() {
-    return (
-      <table>
-        <tbody>{this.renderTable()}</tbody>
-      </table>
-    );
-  }
+const ChartTable = () => {
+  const rows = useTable()
+
+  return (
+    <div className="table">
+      {rows.map((row) => (
+        <div className="row">
+          {row.map((cell) => (
+            <div className="square">{cell.value}</div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
 }
+
+export default ChartTable

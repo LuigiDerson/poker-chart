@@ -1,13 +1,28 @@
+.table {
+  border: thin solid #999;
+  display: inline-block;
+}
+
 .row {
   display: flex;
+  border-bottom: thin solid #999;
+
+  &:last-child {
+    border-bottom: 0;
+  }
 }
 
 .square {
   background: #fff;
-  border: 1px solid #999;
-  float: left;
+  border-right: thin solid #999;
   font-size: 16px;
   height: 34px;
   text-align: center;
   width: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:last-child {
+    border-right: 0;
+  }
 }

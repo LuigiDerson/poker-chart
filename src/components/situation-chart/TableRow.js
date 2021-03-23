@@ -5,7 +5,7 @@ import TableData from './TableData'
 const TableRow = ({ head, data }) => {
   return (
     <tr className="row">
-      {<TableHead head={head} />}
+      <TableHead head={head} />
       {data.map((card) => (
         <TableData key={head + card} data={head + card} />
       ))}
