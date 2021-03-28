@@ -1,5 +1,6 @@
 import React from 'react'
 import useTable from '../../hooks/useTable'
+import TableCell from './TableCell'
 
 const ChartTable = () => {
   const rows = useTable()
@@ -8,8 +9,8 @@ const ChartTable = () => {
     <div className="table">
       {rows.map((row) => (
         <div className="row">
-          {row.map((cell) => (
-            <div className="square">{cell.value}</div>
+          {row.map(({ pair, actions }) => (
+            <TableCell pair={pair} actions={actions} key={pair} />
           ))}
         </div>
       ))}
