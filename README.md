@@ -5,12 +5,13 @@ The target of this app is to help poker players in the pre-flop state.
 ---
 
 TODOS:
-- [] Create Demo with basic situations
-- [] Open Raise, vs Open Raise, vs 3 bet
-- [] Each strategy situation have to has all possible variables
-- [] Each table has different actions (colors) user can add, max 6.
-- [] Functionality to create tables
-- [] Save tables for each variable
+
+- [ ] Create Demo with basic situations
+- [ ] Open Raise, vs Open Raise, vs 3 bet
+- [ ] Each strategy situation have to has all possible variables
+- [ ] Each table has different actions (colors) user can add, max 6.
+- [ ] Functionality to create tables
+- [ ] Save tables for each variable
 
 ## Development
 

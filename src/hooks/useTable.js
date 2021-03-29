@@ -3,17 +3,24 @@ import cards from '../helpers/cards'
 
 //TODO: Define cells schema
 
+/*
+-pair: Hand pair
+-actions: Possible actions 6 max.
+--color: Action color
+--chance: number between 1 to 100
+*/
+
 const defaultCell = {
   pair: '',
   actions: [
-    {
-      color: 'lightgray',
-      chance: 70,
-    },
-    {
-      color: 'pink',
-      chance: 30,
-    },
+    // {
+    //   color: 'lightgray',
+    //   chance: 70,
+    // },
+    // {
+    //   color: 'pink',
+    //   chance: 30,
+    // },
   ],
 }
 
