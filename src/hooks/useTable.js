@@ -25,7 +25,7 @@ const defaultCell = {
 }
 
 export default function useTable() {
-  const [rows] = useState(() => {
+  const [rows, setRows] = useState(() => {
     return cards.map((card, _, array) => {
       const table = []
       array.forEach((currentCard) =>
@@ -35,9 +35,15 @@ export default function useTable() {
     })
   })
 
+  const updateCell = (pair, actions) => {
+    setRows(
+      rows.map((cell) => (cell.pair === pair ? { ...cell, actions } : cell))
+    )
+  }
+
   useEffect(() => {
     //fetch api
   }, [])
 
-  return rows
+  return { rows, updateCell }
 }

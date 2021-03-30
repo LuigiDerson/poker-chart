@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { TableContext } from '../../context/TableContext'
 
 const ActionsForm = ({ currentPair = '' }) => {
+  const [state, setState] = useContext(TableContext)
   const [actions, setActions] = useState([])
   const [chance, setChance] = useState('0')
   const [color, setColor] = useState('')
@@ -14,6 +16,7 @@ const ActionsForm = ({ currentPair = '' }) => {
   // TODO: replace chance with id ?
   const removeAction = (chance) => () => {
     const updatedActions = actions.filter((action) => action.chance !== chance)
+    setMaxChance(maxChance + parseInt(chance))
     setActions(updatedActions)
   }
 
@@ -22,7 +25,11 @@ const ActionsForm = ({ currentPair = '' }) => {
     setMaxChance(maxChance - parseInt(chance))
     setChance('0')
     setColor('')
-    setActions((currentState) => [...currentState, { color, chance }])
+    setActions((prevState) => [...prevState, { color, chance }])
+    setState({
+      ...state,
+      currentActions: [...state.currentActions, { color, chance }],
+    })
   }
 
   return (
@@ -57,7 +64,7 @@ const ActionsForm = ({ currentPair = '' }) => {
           </label>
 
           <span>Value: {chance}</span>
-          <span>Available: {maxChance}</span>
+          <span>Probability: {maxChance}</span>
         </div>
 
         <button type="submit" disabled={!maxChance}>
@@ -76,6 +83,9 @@ const ActionsForm = ({ currentPair = '' }) => {
           )
         })}
       </div>
+      <button type="button" onClick={() => 'save'}>
+        Save
+      </button>
     </div>
   )
 }
