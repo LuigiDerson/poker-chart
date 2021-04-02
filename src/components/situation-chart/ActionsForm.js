@@ -1,9 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { TableContext } from '../../context/TableContext'
 
-const ActionsForm = ({ currentPair = '' }) => {
-  const [state, setState] = useContext(TableContext)
+const ActionsForm = ({ selectedPair = '', updateCell }) => {
   const [actions, setActions] = useState([])
   const [chance, setChance] = useState('0')
   const [color, setColor] = useState('')
@@ -26,16 +24,12 @@ const ActionsForm = ({ currentPair = '' }) => {
     setChance('0')
     setColor('')
     setActions((prevState) => [...prevState, { color, chance }])
-    setState({
-      ...state,
-      currentActions: [...state.currentActions, { color, chance }],
-    })
+    updateCell(selectedPair, { color, chance })
   }
 
   return (
     <div>
-      <h3>Add Action</h3>
-      <p>{currentPair}</p>
+      <h3>Add Actions to '{selectedPair}'</h3>
       <form onSubmit={onSubmit}>
         <div>
           <label>
@@ -91,7 +85,8 @@ const ActionsForm = ({ currentPair = '' }) => {
 }
 
 ActionsForm.propTypes = {
-  currentPair: PropTypes.string,
+  selectedPair: PropTypes.string,
+  updateCell: PropTypes.func,
 }
 
 export default ActionsForm

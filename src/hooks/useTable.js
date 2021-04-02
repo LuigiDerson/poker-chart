@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import cards from '../helpers/cards'
-
-//TODO: Define cells schema
 
 /*
 -pair: Hand pair
@@ -10,40 +8,38 @@ import cards from '../helpers/cards'
 --chance: number between 1 to 100
 */
 
-const defaultCell = {
-  pair: '',
-  actions: [
-    // {
-    //   color: 'lightgray',
-    //   chance: 70,
-    // },
-    // {
-    //   color: 'pink',
-    //   chance: 30,
-    // },
-  ],
+const createDefaultState = () => {
+  const state = { byId: {}, allIds: [] }
+
+  for (let r = 0; r < cards.length; r++) {
+    for (let c = 0; c < cards.length; c++) {
+      const pair = cards[r] + cards[c]
+      const cell = { pair: pair, actions: [] }
+      state.byId[pair] = cell
+      state.allIds.push(pair)
+    }
+  }
+  return state
 }
 
-export default function useTable() {
-  const [rows, setRows] = useState(() => {
-    return cards.map((card, _, array) => {
-      const table = []
-      array.forEach((currentCard) =>
-        table.push({ ...defaultCell, pair: card + currentCard })
-      )
-      return table
-    })
-  })
+const defaultState = createDefaultState()
 
-  const updateCell = (pair, actions) => {
-    setRows(
-      rows.map((cell) => (cell.pair === pair ? { ...cell, actions } : cell))
-    )
+export default function useTable() {
+  const [table, setTable] = useState(defaultState)
+
+  const updateCell = (pair, action) => {
+    const currentPair = table.byId[pair]
+    setTable({
+      ...table,
+      byId: {
+        ...table.byId,
+        [pair]: {
+          ...currentPair,
+          actions: [...currentPair.actions, action],
+        },
+      },
+    })
   }
 
-  useEffect(() => {
-    //fetch api
-  }, [])
-
-  return { rows, updateCell }
+  return { table, updateCell }
 }

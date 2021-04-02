@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react'
-import { TableContext } from '../../context/TableContext'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const TableCell = ({ pair = '', actions = [] }) => {
+const TableCell = ({ pair = '', actions = [], setSelectedPair }) => {
   const [selected, setSelected] = useState(false)
-  const [state, setState] = useContext(TableContext)
 
   const selectCell = () => {
     setSelected(!selected)
 
     if (!selected) {
-      setState({ ...state, selectedPair: pair })
+      setSelectedPair(pair)
     }
   }
 
@@ -22,9 +21,9 @@ const TableCell = ({ pair = '', actions = [] }) => {
       {!!actions.length && (
         <div className="actions-container">
           {actions.map(({ color, chance }) => {
-            // const width = chance / actions.length
             return (
               <div
+                key={color} // TODO: change this
                 style={{
                   width: `${chance}%`,
                   backgroundColor: color,
@@ -36,6 +35,17 @@ const TableCell = ({ pair = '', actions = [] }) => {
       )}
     </div>
   )
+}
+
+TableCell.propTypes = {
+  pair: PropTypes.string,
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string,
+      change: PropTypes.number,
+    })
+  ),
+  setSelectedPair: PropTypes.func,
 }
 
 export default TableCell
