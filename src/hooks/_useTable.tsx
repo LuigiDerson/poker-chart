@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import cards from '../helpers/cards'
 
-/*
--pair: Hand pair
--actions: Possible actions 6 max.
---color: Action color
---chance: number between 1 to 100
-*/
-
 export type Action = { color: string; chance: number }
 export type Pair = string
 

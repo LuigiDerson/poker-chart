@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Action, Pair, UpdateCellsFunction } from '../../hooks/useTable'
+import { CellAction, TableContext } from '../../context/TableContext'
+import { UPDATE_CELLS, CLEAR_SELECTED_PAIRS } from '../../context/TableReducer'
 
-interface ActionsFormProps {
-  selectedPairs: Pair[]
-  updateCells: UpdateCellsFunction
-}
+const ActionsForm = () => {
+  const { selectedPairs, dispatch } = useContext(TableContext)
 
-const ActionsForm = ({ selectedPairs = [], updateCells }: ActionsFormProps) => {
-  const [actions, setActions] = useState<Action[]>([])
+  const [actions, setActions] = useState<CellAction[]>([])
   const [chance, setChance] = useState('0')
   const [color, setColor] = useState('')
   const [maxChance, setMaxChance] = useState(100)
@@ -28,15 +26,23 @@ const ActionsForm = ({ selectedPairs = [], updateCells }: ActionsFormProps) => {
 
   const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
+    const action = { color, chance: +chance }
     setMaxChance(maxChance - parseInt(chance))
     setChance('0')
     setColor('')
+
     setActions((prevState) => [...prevState, { color, chance: +chance }])
-    updateCells(selectedPairs, { color, chance: +chance })
+    dispatch({
+      type: UPDATE_CELLS,
+      payload: { pairs: selectedPairs, action },
+    })
   }
 
   return (
     <div>
+      <button onClick={() => dispatch({ type: CLEAR_SELECTED_PAIRS })}>
+        Clear Selection
+      </button>
       <form onSubmit={onSubmit}>
         <div>
           <label>

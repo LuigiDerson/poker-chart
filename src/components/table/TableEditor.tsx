@@ -1,10 +1,10 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useContext } from 'react'
 import ActionsForm from './ActionsForm'
 import Table from './Table'
 
-import useTable, { Pair, GenerateRowsFunction } from '../../hooks/useTable'
 import cards from '../../helpers/cards'
 import { chunkArray } from '../../helpers/utils'
+import { TableContext, GenerateRowsFunction } from '../../context/TableContext'
 
 const generateRowsFromState: GenerateRowsFunction = ({ byId, allIds }) =>
   chunkArray(
@@ -12,23 +12,15 @@ const generateRowsFromState: GenerateRowsFunction = ({ byId, allIds }) =>
     cards.length
   )
 
-export type SelectPairFunction = Dispatch<SetStateAction<Pair[]>>
-
-const SituationChart = () => {
-  const { table, updateCells } = useTable()
-  const [selectedPairs, setSelectedPairs] = useState<Pair[]>([])
+const TableEditor = () => {
+  const { table } = useContext(TableContext)
 
   return (
     <div>
-      {/* <ActionsForm selectedPair={selectedPair} updateCells={updateCells} /> */}
-
-      {Boolean(selectedPairs.length) && <button>Edit Cells</button>}
-      <Table
-        rows={generateRowsFromState(table)}
-        setSelectedPairs={setSelectedPairs}
-      />
+      <ActionsForm />
+      <Table rows={generateRowsFromState(table)} />
     </div>
   )
 }
 
-export default SituationChart
+export default TableEditor

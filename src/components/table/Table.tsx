@@ -2,26 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Cell from './Cell'
-import { TableRows } from '../../hooks/useTable'
-import { SelectPairFunction } from './TableEditor'
+import { TableRows } from '../../context/TableContext'
 
-interface ChartProps {
+type ChartProps = {
   rows: TableRows
-  setSelectedPairs: SelectPairFunction
 }
 
-const ChartTable = ({ rows = [], setSelectedPairs }: ChartProps) => {
+const Table = ({ rows = [] }: ChartProps) => {
   return (
     <div className="table">
       {rows.map((row, index) => (
         <div className="row" key={index}>
           {row.map(({ pair, actions }) => (
-            <Cell
-              pair={pair}
-              actions={actions}
-              key={pair}
-              setSelectedPairs={setSelectedPairs}
-            />
+            <Cell pair={pair} actions={actions} key={pair} />
           ))}
         </div>
       ))}
@@ -29,7 +22,7 @@ const ChartTable = ({ rows = [], setSelectedPairs }: ChartProps) => {
   )
 }
 
-ChartTable.propTypes = {
+Table.propTypes = {
   rows: PropTypes.arrayOf(
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -41,4 +34,4 @@ ChartTable.propTypes = {
   setSelectedPair: PropTypes.func,
 }
 
-export default ChartTable
+export default Table

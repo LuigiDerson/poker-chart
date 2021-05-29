@@ -1,26 +1,25 @@
-import React, { useState } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Cell } from '../../hooks/useTable'
-import { SelectPairFunction } from './TableEditor'
+import { Cell as CellProps, TableContext } from '../../context/TableContext'
+import { SELECT_PAIRS } from '../../context/TableReducer'
 
-interface TableCellProps extends Cell {
-  setSelectedPairs: SelectPairFunction
-}
-
-const TableCell = ({
-  pair = '',
-  actions = [],
-  setSelectedPairs,
-}: TableCellProps) => {
+const Cell = ({ pair = '', actions = [] }: CellProps) => {
   const [selected, setSelected] = useState(false)
+  const { dispatch, selectedPairs } = useContext(TableContext)
 
-  const selectCell = () => {
+  const selectCell = useCallback(() => {
     setSelected(!selected)
 
     if (!selected) {
-      setSelectedPairs((currState) => [...currState, pair])
+      dispatch({ type: SELECT_PAIRS, payload: { pairs: [pair] } })
     }
-  }
+  }, [pair, dispatch])
+
+  useEffect(() => {
+    if (selectedPairs.length < 1) {
+      setSelected(false)
+    }
+  }, [selectedPairs])
 
   return (
     <div
@@ -47,7 +46,7 @@ const TableCell = ({
   )
 }
 
-TableCell.propTypes = {
+Cell.propTypes = {
   pair: PropTypes.string,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -58,4 +57,4 @@ TableCell.propTypes = {
   setSelectedPair: PropTypes.func,
 }
 
-export default TableCell
+export default Cell
