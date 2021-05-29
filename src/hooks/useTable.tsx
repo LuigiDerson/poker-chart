@@ -8,8 +8,30 @@ import cards from '../helpers/cards'
 --chance: number between 1 to 100
 */
 
+export type Action = { color: string; chance: number }
+export type Pair = string
+
+export interface Cell {
+  pair: string
+  actions: Action[]
+}
+
+export interface CellById {
+  [key: string]: Cell
+}
+
+export interface TableState {
+  byId: CellById
+  allIds: Pair[]
+}
+
+export type Row = Cell[]
+export type TableRows = Row[]
+export type GenerateRowsFunction = (tableState:TableState) => TableRows
+export type UpdateCellFunction = (pair: Pair, action: Action) => void
+
 const createDefaultState = () => {
-  const state = { byId: {}, allIds: [] }
+  const state: TableState = { byId: {}, allIds: [] }
 
   for (let r = 0; r < cards.length; r++) {
     for (let c = 0; c < cards.length; c++) {
@@ -27,7 +49,7 @@ const defaultState = createDefaultState()
 export default function useTable() {
   const [table, setTable] = useState(defaultState)
 
-  const updateCell = (pair, action) => {
+  const updateCell: UpdateCellFunction = (pair, action) => {
     const currentPair = table.byId[pair]
     setTable({
       ...table,

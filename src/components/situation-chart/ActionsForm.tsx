@@ -1,30 +1,36 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Action, Pair, UpdateCellFunction } from '../../hooks/useTable'
 
-const ActionsForm = ({ selectedPair = '', updateCell }) => {
-  const [actions, setActions] = useState([])
+interface ActionsFormProps {
+  selectedPair: Pair,
+  updateCell: UpdateCellFunction
+}
+
+const ActionsForm = ({ selectedPair = '', updateCell }:ActionsFormProps) => {
+  const [actions, setActions] = useState<Action[]>([])
   const [chance, setChance] = useState('0')
   const [color, setColor] = useState('')
   const [maxChance, setMaxChance] = useState(100)
 
-  const onChangeChance = (event) => {
+  const onChangeChance: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
     setChance(value)
   }
   // TODO: replace chance with id ?
-  const removeAction = (chance) => () => {
+  const removeAction = (chance: number) => () => {
     const updatedActions = actions.filter((action) => action.chance !== chance)
-    setMaxChance(maxChance + parseInt(chance))
+    setMaxChance(maxChance + chance)
     setActions(updatedActions)
   }
 
-  const onSubmit = (event) => {
+  const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
     setMaxChance(maxChance - parseInt(chance))
     setChance('0')
     setColor('')
-    setActions((prevState) => [...prevState, { color, chance }])
-    updateCell(selectedPair, { color, chance })
+    setActions((prevState) => [...prevState, { color, chance: +chance }])
+    updateCell(selectedPair, { color, chance: +chance })
   }
 
   return (
