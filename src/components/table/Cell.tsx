@@ -1,20 +1,24 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Cell } from '../../hooks/useTable'
-import { SelectPairFunction } from './SituationChart'
+import { SelectPairFunction } from './TableEditor'
 
 interface TableCellProps extends Cell {
-  setSelectedPair: SelectPairFunction
+  setSelectedPairs: SelectPairFunction
 }
 
-const TableCell = ({ pair = '', actions = [], setSelectedPair }:TableCellProps) => {
+const TableCell = ({
+  pair = '',
+  actions = [],
+  setSelectedPairs,
+}: TableCellProps) => {
   const [selected, setSelected] = useState(false)
 
   const selectCell = () => {
     setSelected(!selected)
 
     if (!selected) {
-      setSelectedPair(pair)
+      setSelectedPairs((currState) => [...currState, pair])
     }
   }
 

@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Action, Pair, UpdateCellFunction } from '../../hooks/useTable'
+import { Action, Pair, UpdateCellsFunction } from '../../hooks/useTable'
 
 interface ActionsFormProps {
-  selectedPair: Pair,
-  updateCell: UpdateCellFunction
+  selectedPairs: Pair[]
+  updateCells: UpdateCellsFunction
 }
 
-const ActionsForm = ({ selectedPair = '', updateCell }:ActionsFormProps) => {
+const ActionsForm = ({ selectedPairs = [], updateCells }: ActionsFormProps) => {
   const [actions, setActions] = useState<Action[]>([])
   const [chance, setChance] = useState('0')
   const [color, setColor] = useState('')
   const [maxChance, setMaxChance] = useState(100)
 
-  const onChangeChance: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const onChangeChance: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
     const value = event.target.value
     setChance(value)
   }
@@ -30,12 +32,11 @@ const ActionsForm = ({ selectedPair = '', updateCell }:ActionsFormProps) => {
     setChance('0')
     setColor('')
     setActions((prevState) => [...prevState, { color, chance: +chance }])
-    updateCell(selectedPair, { color, chance: +chance })
+    updateCells(selectedPairs, { color, chance: +chance })
   }
 
   return (
     <div>
-      <h3>Add Actions to '{selectedPair}'</h3>
       <form onSubmit={onSubmit}>
         <div>
           <label>

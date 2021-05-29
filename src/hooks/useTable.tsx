@@ -27,8 +27,8 @@ export interface TableState {
 
 export type Row = Cell[]
 export type TableRows = Row[]
-export type GenerateRowsFunction = (tableState:TableState) => TableRows
-export type UpdateCellFunction = (pair: Pair, action: Action) => void
+export type GenerateRowsFunction = (tableState: TableState) => TableRows
+export type UpdateCellsFunction = (pairs: Pair[], action: Action) => void
 
 const createDefaultState = () => {
   const state: TableState = { byId: {}, allIds: [] }
@@ -49,19 +49,21 @@ const defaultState = createDefaultState()
 export default function useTable() {
   const [table, setTable] = useState(defaultState)
 
-  const updateCell: UpdateCellFunction = (pair, action) => {
-    const currentPair = table.byId[pair]
-    setTable({
-      ...table,
-      byId: {
-        ...table.byId,
-        [pair]: {
-          ...currentPair,
-          actions: [...currentPair.actions, action],
+  const updateCells: UpdateCellsFunction = (pairs, action) => {
+    pairs.forEach((pair) => {
+      const currentPair = table.byId[pair]
+      setTable({
+        ...table,
+        byId: {
+          ...table.byId,
+          [pair]: {
+            ...currentPair,
+            actions: [...currentPair.actions, action],
+          },
         },
-      },
+      })
     })
   }
 
-  return { table, updateCell }
+  return { table, updateCells }
 }

@@ -1,26 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TableCell from './TableCell'
+import Cell from './Cell'
 import { TableRows } from '../../hooks/useTable'
-import { SelectPairFunction } from './SituationChart'
+import { SelectPairFunction } from './TableEditor'
 
 interface ChartProps {
   rows: TableRows
-  setSelectedPair: SelectPairFunction
+  setSelectedPairs: SelectPairFunction
 }
 
-const ChartTable = ({ rows = [], setSelectedPair }: ChartProps) => {
+const ChartTable = ({ rows = [], setSelectedPairs }: ChartProps) => {
   return (
     <div className="table">
       {rows.map((row, index) => (
         <div className="row" key={index}>
           {row.map(({ pair, actions }) => (
-            <TableCell
+            <Cell
               pair={pair}
               actions={actions}
               key={pair}
-              setSelectedPair={setSelectedPair}
+              setSelectedPairs={setSelectedPairs}
             />
           ))}
         </div>
