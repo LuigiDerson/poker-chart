@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import ActionsForm from './ActionsForm'
 import Table from './Table'
 
@@ -13,11 +13,21 @@ const generateRowsFromState: GenerateRowsFunction = ({ byId, allIds }) =>
   )
 
 const TableEditor = () => {
+  const [editMode, setEditMode] = useState(false)
   const { table } = useContext(TableContext)
 
   return (
     <div>
-      <ActionsForm />
+      <button
+        style={{ display: 'block' }}
+        onClick={() => setEditMode(!editMode)}
+      >
+        {editMode ? 'Close Edition' : 'Edit Selection'}
+      </button>
+      <button style={{ display: 'block' }} onClick={() => 'save'}>
+        Save
+      </button>
+      {editMode && <ActionsForm />}
       <Table rows={generateRowsFromState(table)} />
     </div>
   )

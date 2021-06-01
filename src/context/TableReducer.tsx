@@ -1,7 +1,7 @@
 import { DefaultReducerState, CellAction, Pair } from './TableContext'
 
 export const UPDATE_CELLS = 'UPDATE_CELLS'
-export const SELECT_PAIRS = 'SELECT_PAIRS'
+export const TOGGLE_PAIRS = 'TOGGLE_PAIRS'
 export const CLEAR_SELECTED_PAIRS = 'CLEAR_SELECTED_PAIRS'
 
 export type Action =
@@ -10,7 +10,7 @@ export type Action =
       payload: { pairs: Pair[]; action: CellAction }
     }
   | {
-      type: typeof SELECT_PAIRS
+      type: typeof TOGGLE_PAIRS
       payload: { pairs: Pair[] }
     }
   | {
@@ -28,9 +28,14 @@ export default function TableReducer(
         state.table.byId[pair].actions.push(newAction)
       })
       break
-    case SELECT_PAIRS:
+    case TOGGLE_PAIRS:
       action.payload.pairs.forEach((pair) => {
-        state.selectedPairs.push(pair)
+        const itemIndex = state.selectedPairs.indexOf(pair)
+        if (itemIndex > -1) {
+          state.selectedPairs.splice(itemIndex, 1)
+        } else {
+          state.selectedPairs.push(pair)
+        }
       })
       break
     case CLEAR_SELECTED_PAIRS:

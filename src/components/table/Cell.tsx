@@ -1,33 +1,24 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useContext, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Cell as CellProps, TableContext } from '../../context/TableContext'
-import { SELECT_PAIRS } from '../../context/TableReducer'
+import { TOGGLE_PAIRS } from '../../context/TableReducer'
 
 const Cell = ({ pair = '', actions = [] }: CellProps) => {
   const [selected, setSelected] = useState(false)
-  const { dispatch, selectedPairs } = useContext(TableContext)
+  const { dispatch } = useContext(TableContext)
 
-  const selectCell = useCallback(() => {
+  const toggleCell = useCallback(() => {
     setSelected(!selected)
-
-    if (!selected) {
-      dispatch({ type: SELECT_PAIRS, payload: { pairs: [pair] } })
-    }
-  }, [pair, dispatch])
-
-  useEffect(() => {
-    if (selectedPairs.length < 1) {
-      setSelected(false)
-    }
-  }, [selectedPairs])
+    dispatch({ type: TOGGLE_PAIRS, payload: { pairs: [pair] } })
+  }, [pair, dispatch, selected])
 
   return (
     <div
-      onClick={() => selectCell()}
+      onClick={() => toggleCell()}
       className={`square ${selected ? 'square--selected' : ''}`.trim()}
     >
       <span style={{ position: 'absolute' }}>{pair}</span>
-      {!!actions.length && (
+      {Boolean(actions.length) && (
         <div className="actions-container">
           {actions.map(({ color, chance }) => {
             return (

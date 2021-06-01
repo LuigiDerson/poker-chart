@@ -90,9 +90,6 @@ const ActionsForm = () => {
           )
         })}
       </div>
-      <button type="button" onClick={() => 'save'}>
-        Save
-      </button>
     </div>
   )
 }

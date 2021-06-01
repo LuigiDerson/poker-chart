@@ -37,6 +37,8 @@ interface TableContextProps {
 }
 
 const createTableState = (defaultTable: TableState) => {
+  const pictureCards = { A: 1, T: 10, J: 11, Q: 12, K: 13 }
+
   for (let r = 0; r < cards.length; r++) {
     for (let c = 0; c < cards.length; c++) {
       const pair = cards[r] + cards[c]
