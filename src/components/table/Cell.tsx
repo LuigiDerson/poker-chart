@@ -1,16 +1,28 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, {
+  useContext,
+  useState,
+  useCallback,
+  memo,
+  useEffect,
+} from 'react'
 import PropTypes from 'prop-types'
 import { Cell as CellProps, TableContext } from '../../context/TableContext'
 import { TOGGLE_PAIRS } from '../../context/TableReducer'
 
-const Cell = ({ pair = '', actions = [] }: CellProps) => {
+const Cell = ({ pair = '', actions = [], id = '' }: CellProps) => {
   const [selected, setSelected] = useState(false)
-  const { dispatch } = useContext(TableContext)
+  const { dispatch, selectedPairs } = useContext(TableContext)
 
   const toggleCell = useCallback(() => {
     setSelected(!selected)
-    dispatch({ type: TOGGLE_PAIRS, payload: { pairs: [pair] } })
-  }, [pair, dispatch, selected])
+    dispatch({ type: TOGGLE_PAIRS, payload: { pairs: [id] } })
+  }, [id, dispatch, selected])
+
+  useEffect(() => {
+    if (selected && selectedPairs.length === 0) {
+      setSelected(false)
+    }
+  }, [selected, selectedPairs])
 
   return (
     <div
@@ -48,4 +60,4 @@ Cell.propTypes = {
   setSelectedPair: PropTypes.func,
 }
 
-export default Cell
+export default memo(Cell)

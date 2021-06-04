@@ -1,19 +1,20 @@
-import React, { createContext, Dispatch, ReactNode, useReducer } from 'react'
+import React, {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useMemo,
+  useReducer,
+} from 'react'
 import cards from '../helpers/cards'
 import TableReducer, { Action } from './TableReducer'
 import produce from 'immer'
-
-/*
--pair: Hand pair
--actions: Possible actions 6 max.
---color: Action color
---chance: number between 1 to 100
-*/
+import { getHighestCard, uid } from '../helpers/utils'
 
 export type CellAction = { color: string; chance: number }
 export type Pair = string
 
 export interface Cell {
+  id: string
   pair: string
   actions: CellAction[]
 }
@@ -36,24 +37,14 @@ interface TableContextProps {
   children: ReactNode
 }
 
-type PictureCardsType = {
-  [key: string]: number
-}
-
-const getHighestCard = (a: string, b: string) => {
-  const pictureCards: PictureCardsType = { A: 1, T: 10, J: 11, Q: 12, K: 13 }
-  const x = pictureCards[a] || +a
-  const y = pictureCards[b] || +b
-  return x > y ? `${a}${b}` : `${b}${a}`
-}
-
 const createTableState = (defaultTable: TableState) => {
   for (let r = 0; r < cards.length; r++) {
     for (let c = 0; c < cards.length; c++) {
+      const id = uid()
       const pair = getHighestCard(cards[r], cards[c])
-      const cell = { pair: pair, actions: [] }
-      defaultTable.byId[pair] = cell
-      defaultTable.allIds.push(pair)
+      const cell = { id, pair: pair, actions: [] }
+      defaultTable.byId[id] = cell
+      defaultTable.allIds.push(id)
     }
   }
   return defaultTable
@@ -91,11 +82,12 @@ const TableContextProvider = ({ children }: TableContextProps) => {
   const [state, dispatch] = useReducer(curriedTableReducer, initialState, init)
   const { table, selectedPairs } = state
 
-  return (
-    <TableContext.Provider value={{ table, selectedPairs, dispatch }}>
-      {children}
-    </TableContext.Provider>
+  const value = useMemo(
+    () => ({ table, selectedPairs, dispatch }),
+    [table, selectedPairs]
   )
+
+  return <TableContext.Provider value={value}>{children}</TableContext.Provider>
 }
 
 export default TableContextProvider

@@ -1,20 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { memo, useContext, useMemo } from 'react'
 
 import Cell from './Cell'
-import { TableRows } from '../../context/TableContext'
+import { TableContext } from '../../context/TableContext'
+import { generateRowsFromState } from '../../context/StateHelpers'
 
-type ChartProps = {
-  rows: TableRows
-}
+const Table = () => {
+  const { table } = useContext(TableContext)
+  const rows = useMemo(() => generateRowsFromState(table), [table])
 
-const Table = ({ rows = [] }: ChartProps) => {
   return (
     <div className="table">
       {rows.map((row, index) => (
         <div className="row" key={index}>
-          {row.map(({ pair, actions }) => (
-            <Cell pair={pair} actions={actions} key={pair} />
+          {row.map(({ pair, actions, id }) => (
+            <Cell id={id} pair={pair} actions={actions} key={id} />
           ))}
         </div>
       ))}
@@ -22,16 +21,4 @@ const Table = ({ rows = [] }: ChartProps) => {
   )
 }
 
-Table.propTypes = {
-  rows: PropTypes.arrayOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        pair: PropTypes.string.isRequired,
-        actions: PropTypes.array,
-      })
-    )
-  ).isRequired,
-  setSelectedPair: PropTypes.func,
-}
-
-export default Table
+export default memo(Table)

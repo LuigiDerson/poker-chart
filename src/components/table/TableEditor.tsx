@@ -1,20 +1,9 @@
-import { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import ActionsForm from './ActionsForm'
 import Table from './Table'
 
-import cards from '../../helpers/cards'
-import { chunkArray } from '../../helpers/utils'
-import { TableContext, GenerateRowsFunction } from '../../context/TableContext'
-
-const generateRowsFromState: GenerateRowsFunction = ({ byId, allIds }) =>
-  chunkArray(
-    allIds.map((pair) => byId[pair]),
-    cards.length
-  )
-
 const TableEditor = () => {
   const [editMode, setEditMode] = useState(false)
-  const { table } = useContext(TableContext)
 
   return (
     <div>
@@ -28,7 +17,7 @@ const TableEditor = () => {
         Save
       </button>
       {editMode && <ActionsForm />}
-      <Table rows={generateRowsFromState(table)} />
+      <Table />
     </div>
   )
 }
