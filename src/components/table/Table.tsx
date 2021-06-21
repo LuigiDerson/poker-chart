@@ -1,19 +1,25 @@
 import React, { memo, useContext, useMemo } from 'react'
 
 import Cell from './Cell'
-import { TableContext } from '../../context/TableContext'
-import { generateRowsFromState } from '../../context/StateHelpers'
+import TableContext from '../../context/TableContext'
+import { generateRowsFromState } from '../../context/state-helpers'
 
 const Table = () => {
-  const { table } = useContext(TableContext)
-  const rows = useMemo(() => generateRowsFromState(table), [table])
+  const { cells } = useContext(TableContext)
+  const rows = useMemo(() => generateRowsFromState(cells), [cells])
 
   return (
     <div className="table">
       {rows.map((row, index) => (
         <div className="row" key={index}>
-          {row.map(({ pair, actions, id }) => (
-            <Cell id={id} pair={pair} actions={actions} key={id} />
+          {row.map(({ pair, actions, id, position }) => (
+            <Cell
+              id={id}
+              pair={pair}
+              actions={actions}
+              key={id}
+              position={position}
+            />
           ))}
         </div>
       ))}

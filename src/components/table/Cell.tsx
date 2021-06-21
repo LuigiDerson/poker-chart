@@ -6,23 +6,23 @@ import React, {
   useEffect,
 } from 'react'
 import PropTypes from 'prop-types'
-import { Cell as CellProps, TableContext } from '../../context/TableContext'
-import { TOGGLE_PAIRS } from '../../context/TableReducer'
+import { Cell as CellProps } from '../../context/types'
+import EditorContext from '../../context/EditorContext'
 
-const Cell = ({ pair = '', actions = [], id = '' }: CellProps) => {
+const Cell = ({ pair = '', actions = [], id = '', position }: CellProps) => {
   const [selected, setSelected] = useState(false)
-  const { dispatch, selectedPairs } = useContext(TableContext)
+  const { toggleSelectedCells, selectedCells } = useContext(EditorContext)
 
   const toggleCell = useCallback(() => {
     setSelected(!selected)
-    dispatch({ type: TOGGLE_PAIRS, payload: { pairs: [id] } })
-  }, [id, dispatch, selected])
+    toggleSelectedCells([position])
+  }, [position, toggleSelectedCells, selected])
 
   useEffect(() => {
-    if (selected && selectedPairs.length === 0) {
+    if (selected && selectedCells.length === 0) {
       setSelected(false)
     }
-  }, [selected, selectedPairs])
+  }, [selected, selectedCells])
 
   return (
     <div

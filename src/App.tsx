@@ -1,11 +1,11 @@
 import React from 'react'
 import TableEditor from './components/table/TableEditor'
-import TableContextProvider from './context/TableContext'
+import TableProvider from './context/TableProvider'
 
 const App = () => (
-  <TableContextProvider>
+  <TableProvider>
     <TableEditor />
-  </TableContextProvider>
+  </TableProvider>
 )
 
 export default App
