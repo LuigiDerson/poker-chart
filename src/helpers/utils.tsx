@@ -24,7 +24,7 @@ type PictureCardsType = {
 }
 
 export const getHighestCard = (a: string, b: string) => {
-  const pictureCards: PictureCardsType = { A: 1, T: 10, J: 11, Q: 12, K: 13 }
+  const pictureCards: PictureCardsType = { A: 14, T: 10, J: 11, Q: 12, K: 13 }
   const x = pictureCards[a] || +a
   const y = pictureCards[b] || +b
   return x > y ? `${a}${b}` : `${b}${a}`

@@ -8,13 +8,12 @@ export interface Cell {
   actions: CellAction[]
 }
 
-export interface ObjectById<T> {
+type ObjectById<T> = {
   [key: string]: T
 }
 
-export type Row = Cell[]
+type Row = Cell[]
 export type TableRows = Row[]
-export type UpdateCellsReducer = (pairs: string[], action: CellAction) => void
 
 export interface NormalizedState<T> {
   byId: ObjectById<T>

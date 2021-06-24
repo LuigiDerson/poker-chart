@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-import { CellAction, TableContext } from '../../context/TableContext'
-import { UPDATE_CELLS, CLEAR_SELECTED_PAIRS } from '../../context/TableReducer'
+
+import { CellAction } from '../../context/types'
+import EditorContext from '../../context/EditorContext'
 
 const ActionsForm = () => {
-  const { selectedPairs, dispatch } = useContext(TableContext)
+  const { selectedCells, updateSelectedCells } = useContext(EditorContext)
 
   const [actions, setActions] = useState<CellAction[]>([])
   const [chance, setChance] = useState('0')
@@ -32,17 +33,11 @@ const ActionsForm = () => {
     setColor('')
 
     setActions((prevState) => [...prevState, { color, chance: +chance }])
-    dispatch({
-      type: UPDATE_CELLS,
-      payload: { pairs: selectedPairs, action },
-    })
+    updateSelectedCells({ cells: selectedCells, action })
   }
 
   return (
     <div>
-      <button onClick={() => dispatch({ type: CLEAR_SELECTED_PAIRS })}>
-        Clear Selection
-      </button>
       <form onSubmit={onSubmit}>
         <div>
           <label>

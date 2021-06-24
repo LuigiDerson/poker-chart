@@ -15,8 +15,8 @@ const Cell = ({ pair = '', actions = [], id = '', position }: CellProps) => {
 
   const toggleCell = useCallback(() => {
     setSelected(!selected)
-    toggleSelectedCells([position])
-  }, [position, toggleSelectedCells, selected])
+    toggleSelectedCells([id])
+  }, [id, toggleSelectedCells, selected])
 
   useEffect(() => {
     if (selected && selectedCells.length === 0) {
@@ -50,6 +50,7 @@ const Cell = ({ pair = '', actions = [], id = '', position }: CellProps) => {
 }
 
 Cell.propTypes = {
+  id: PropTypes.string.isRequired,
   pair: PropTypes.string,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -57,7 +58,6 @@ Cell.propTypes = {
       change: PropTypes.number,
     })
   ),
-  setSelectedPair: PropTypes.func,
 }
 
 export default memo(Cell)

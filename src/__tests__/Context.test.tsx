@@ -28,10 +28,8 @@ test('should generate cells if initial state is empty', () => {
   expect(normalized.allIds.length).toBe(cards.length * cards.length)
   expect(normalized.byId['01']).toMatchObject({
     id: '01',
-    pair: 'KA',
+    pair: 'AK',
     position: { x: 1, y: 0 },
     actions: [],
   })
 })
-
-// test('should ', () => {})

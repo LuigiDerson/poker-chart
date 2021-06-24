@@ -14,6 +14,7 @@ export const generateRowsFromState = ({
 
 export const normalizeModel = (cells: Cell[] = []) => {
   const normalized: NormalizedState<Cell> = { byId: {}, allIds: [] }
+
   if (cells.length < 1) {
     const fallbackState = createCellsState()
     return fallbackState
@@ -31,6 +32,7 @@ export const normalizeModel = (cells: Cell[] = []) => {
 
 export const createCellsState = () => {
   const normalized: NormalizedState<Cell> = { byId: {}, allIds: [] }
+
   for (let row = 0; row < cards.length; row++) {
     for (let col = 0; col < cards.length; col++) {
       const x = String(row)

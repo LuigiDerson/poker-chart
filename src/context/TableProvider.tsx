@@ -2,8 +2,8 @@ import React, { useReducer, useMemo, ReactNode, useState } from 'react'
 import produce from 'immer'
 
 import TableContext from './TableContext'
-import { Cell, NormalizedState } from './types'
-import TableReducer from './TableReducer'
+import { Cell, CellAction, NormalizedState } from './types'
+import TableReducer, { UPDATE_CELLS } from './TableReducer'
 import EditorContext from './EditorContext'
 import { normalizeModel } from './state-helpers'
 
@@ -40,15 +40,38 @@ const TableContextProvider = ({ children }: TableContextProps) => {
 
   const tableValue = useMemo(() => ({ cells }), [cells])
 
-  const toggleSelectedCells = (cells: string[]) => {}
+  const toggleSelectedCells = (ids: string[]) => {
+    ids.forEach((id) => {
+      const itemIndex = selectedCells.indexOf(id)
+      if (itemIndex > -1) {
+        const filteredCells = selectedCells.filter((currId) => id !== currId)
+        setSelectedCells(filteredCells)
+      } else {
+        setSelectedCells((previousState) => [...previousState, id])
+      }
+    })
+  }
+
+  const updateSelectedCells = (payload: {
+    cells: string[]
+    action: CellAction
+  }) => {
+    dispatch({
+      type: UPDATE_CELLS,
+      payload,
+    })
+  }
 
   const editorValue = useMemo(
     () => ({
       selectedCells,
       selectedColors,
+      setSelectedCells,
       toggleSelectedCells,
       setSelectedColors,
+      updateSelectedCells,
     }),
+    // eslint-disable-next-line
     [selectedCells, selectedColors]
   )
 

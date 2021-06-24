@@ -1,18 +1,25 @@
 import { createContext } from 'react'
-import { Position } from './types'
+import { CellAction } from './types'
 
 interface IEditorContext {
   selectedCells: string[]
   selectedColors: string[]
-  toggleSelectedCells: (cells: Position[]) => void
-  setSelectedColors: (color: Position[]) => void
+  toggleSelectedCells: (ids: string[]) => void
+  setSelectedColors: (color: string[]) => void
+  setSelectedCells: (cells: string[] | []) => void
+  updateSelectedCells: (payload: {
+    cells: string[]
+    action: CellAction
+  }) => void
 }
 
 const EditorContext = createContext<IEditorContext>({
   selectedCells: [],
   selectedColors: [],
-  toggleSelectedCells: () => {},
-  setSelectedColors: () => {},
+  toggleSelectedCells() {},
+  setSelectedCells() {},
+  setSelectedColors() {},
+  updateSelectedCells() {},
 })
 
 export default EditorContext

@@ -12,8 +12,8 @@ export default function TableReducer(state: IState, action: Action) {
   switch (action.type) {
     case UPDATE_CELLS:
       const { cells, action: newAction } = action.payload
-      cells.forEach((cellPos) => {
-        state.cells.byId[cellPos].actions.push(newAction)
+      cells.forEach((position) => {
+        state.cells.byId[position].actions.push(newAction)
       })
       break
     default:
