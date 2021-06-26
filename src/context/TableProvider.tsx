@@ -3,7 +3,10 @@ import produce from 'immer'
 
 import TableContext from './TableContext'
 import { Cell, CellAction, NormalizedState } from './types'
-import TableReducer, { UPDATE_CELLS } from './TableReducer'
+import TableReducer, {
+  ADD_CELL_ACTION,
+  REMOVE_CELL_ACTION,
+} from './TableReducer'
 import EditorContext from './EditorContext'
 import { normalizeModel } from './state-helpers'
 
@@ -14,11 +17,13 @@ interface TableContextProps {
 export interface IState {
   cellsList?: Cell[] | []
   cells: NormalizedState<Cell>
+  actions: CellAction[]
 }
 
 const initialState = {
   cellsList: [] as Cell[],
   cells: {} as NormalizedState<Cell>,
+  actions: [],
 }
 
 const init = (initialState: IState) => ({
@@ -29,7 +34,7 @@ const init = (initialState: IState) => ({
 const curriedTableReducer = produce(TableReducer)
 
 const TableContextProvider = ({ children }: TableContextProps) => {
-  const [{ cells }, dispatch] = useReducer(
+  const [{ cells, actions }, dispatch] = useReducer(
     curriedTableReducer,
     initialState,
     init
@@ -38,7 +43,7 @@ const TableContextProvider = ({ children }: TableContextProps) => {
   const [selectedCells, setSelectedCells] = useState<string[]>([])
   const [selectedColors, setSelectedColors] = useState<string[]>([])
 
-  const tableValue = useMemo(() => ({ cells }), [cells])
+  const tableValue = useMemo(() => ({ cells, actions }), [cells, actions])
 
   const toggleSelectedCells = (ids: string[]) => {
     ids.forEach((id) => {
@@ -52,13 +57,17 @@ const TableContextProvider = ({ children }: TableContextProps) => {
     })
   }
 
-  const updateSelectedCells = (payload: {
-    cells: string[]
-    action: CellAction
-  }) => {
+  const addCellAction = (action: CellAction) => {
     dispatch({
-      type: UPDATE_CELLS,
-      payload,
+      type: ADD_CELL_ACTION,
+      payload: { cells: selectedCells, action },
+    })
+  }
+
+  const removeCellAction = (actionIndex: number) => {
+    dispatch({
+      type: REMOVE_CELL_ACTION,
+      payload: { cells: selectedCells, actionIndex },
     })
   }
 
@@ -69,7 +78,8 @@ const TableContextProvider = ({ children }: TableContextProps) => {
       setSelectedCells,
       toggleSelectedCells,
       setSelectedColors,
-      updateSelectedCells,
+      addCellAction,
+      removeCellAction,
     }),
     // eslint-disable-next-line
     [selectedCells, selectedColors]

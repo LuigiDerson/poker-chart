@@ -7,10 +7,8 @@ interface IEditorContext {
   toggleSelectedCells: (ids: string[]) => void
   setSelectedColors: (color: string[]) => void
   setSelectedCells: (cells: string[] | []) => void
-  updateSelectedCells: (payload: {
-    cells: string[]
-    action: CellAction
-  }) => void
+  addCellAction: (action: CellAction) => void
+  removeCellAction: (actionIndex: number) => void
 }
 
 const EditorContext = createContext<IEditorContext>({
@@ -19,7 +17,8 @@ const EditorContext = createContext<IEditorContext>({
   toggleSelectedCells() {},
   setSelectedCells() {},
   setSelectedColors() {},
-  updateSelectedCells() {},
+  addCellAction() {},
+  removeCellAction() {},
 })
 
 export default EditorContext

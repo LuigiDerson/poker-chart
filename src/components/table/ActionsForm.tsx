@@ -5,40 +5,51 @@ import { CellAction } from '../../context/types'
 import EditorContext from '../../context/EditorContext'
 
 const ActionsForm = () => {
-  const { selectedCells, updateSelectedCells } = useContext(EditorContext)
+  const { addCellAction, removeCellAction } = useContext(EditorContext)
 
   const [actions, setActions] = useState<CellAction[]>([])
-  const [chance, setChance] = useState('0')
+  const [chance, setChance] = useState(0)
   const [color, setColor] = useState('')
+  const [legend, setLegend] = useState('')
   const [maxChance, setMaxChance] = useState(100)
 
-  const onChangeChance: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    const value = event.target.value
-    setChance(value)
-  }
-  // TODO: replace chance with id ?
-  const removeAction = (chance: number) => () => {
-    const updatedActions = actions.filter((action) => action.chance !== chance)
-    setMaxChance(maxChance + chance)
+  const removeAction = (index: number) => () => {
+    const updatedActions = actions.filter((_, idx) => idx !== index)
+    setMaxChance(maxChance + actions[index].chance)
     setActions(updatedActions)
+
+    removeCellAction(index)
   }
 
   const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
-    const action = { color, chance: +chance }
-    setMaxChance(maxChance - parseInt(chance))
-    setChance('0')
-    setColor('')
+    if (!chance) return
 
-    setActions((prevState) => [...prevState, { color, chance: +chance }])
-    updateSelectedCells({ cells: selectedCells, action })
+    const action = { color, chance, legend }
+
+    setMaxChance(maxChance - chance)
+    setChance(0)
+    setColor('')
+    setLegend('')
+
+    setActions((prevState) => [...prevState, action])
+    addCellAction(action)
   }
 
   return (
     <div>
       <form onSubmit={onSubmit}>
+        <div>
+          <label>
+            Legend
+            <input
+              type="text"
+              value={legend}
+              onChange={(e) => setLegend(e.target.value)}
+              required
+            />
+          </label>
+        </div>
         <div>
           <label>
             Color
@@ -60,7 +71,7 @@ const ActionsForm = () => {
               max={maxChance}
               value={chance}
               step="10"
-              onChange={onChangeChance}
+              onChange={(e) => setChance(Number(e.target.value))}
               required
             />
           </label>
@@ -74,11 +85,11 @@ const ActionsForm = () => {
         </button>
       </form>
       <div>
-        {actions.map(({ color, chance }) => {
+        {actions.map(({ color, chance }, index) => {
           return (
             <div key={chance + color}>
               {color}, {chance}
-              <button type="button" onClick={removeAction(chance)}>
+              <button type="button" onClick={removeAction(index)}>
                 Remove
               </button>
             </div>

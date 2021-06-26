@@ -5,6 +5,7 @@ import { Cell, NormalizedState } from './types'
 const TableContext = createContext<IState>({
   cellsList: [],
   cells: {} as NormalizedState<Cell>,
+  actions: [],
 })
 
 export default TableContext

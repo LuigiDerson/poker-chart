@@ -4,7 +4,5 @@ import App from '../App'
 
 test('renders welcome message', () => {
   render(<App />)
-  expect(
-    screen.getByRole('button', { name: 'Edit Selection' })
-  ).toBeInTheDocument()
+  expect(screen.getByText('AA')).toBeInTheDocument()
 })

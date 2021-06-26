@@ -1,3 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 .table {
   border: thin solid #999;
   display: inline-block;

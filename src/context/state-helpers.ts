@@ -22,7 +22,8 @@ export const normalizeModel = (cells: Cell[] = []) => {
 
   for (let index = 0; index < cells.length; index++) {
     const currentCell = cells[index]
-    const id = String(currentCell.position.x) + String(currentCell.position.y)
+    const id =
+      String(currentCell.position.x) + '.' + String(currentCell.position.y)
     normalized.byId[id] = currentCell
     normalized.allIds.push(id)
   }
@@ -35,11 +36,9 @@ export const createCellsState = () => {
 
   for (let row = 0; row < cards.length; row++) {
     for (let col = 0; col < cards.length; col++) {
-      const x = String(row)
-      const y = String(col)
-      const id = x + y
+      const id = `${row}.${col}`
       const pair = getHighestCard(cards[row], cards[col])
-      const cell = { id, pair: pair, position: { x: col, y: row }, actions: [] }
+      const cell = { id, pair: pair, position: { x: row, y: col }, actions: [] }
       normalized.byId[id] = cell
       normalized.allIds.push(id)
     }

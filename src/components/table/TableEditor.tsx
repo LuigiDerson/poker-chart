@@ -8,22 +8,23 @@ const TableEditor = () => {
   const { selectedCells, setSelectedCells } = useContext(EditorContext)
 
   return (
-    <div>
-      <button
-        style={{ display: 'block' }}
-        onClick={() => setEditMode(!editMode)}
-        type="button"
-      >
-        {editMode ? 'Close Edition' : 'Edit Selection'}
-      </button>
-
+    <div className="container">
       {selectedCells.length > 0 && (
-        <button onClick={() => setSelectedCells([])}>Clear Selection</button>
+        <>
+          <button
+            style={{ display: 'block' }}
+            onClick={() => setEditMode(!editMode)}
+            type="button"
+          >
+            {editMode ? 'Close Edition' : 'Edit Selection'}
+          </button>
+          <button onClick={() => setSelectedCells([])}>Clear Selection</button>
+        </>
       )}
 
-      <button style={{ display: 'block' }} onClick={() => 'save'}>
+      {/* <button style={{ display: 'block' }} onClick={() => 'save'}>
         Save
-      </button>
+      </button> */}
       {editMode && <ActionsForm />}
       <Table />
     </div>

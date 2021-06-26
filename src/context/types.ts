@@ -1,4 +1,4 @@
-export type CellAction = { color: string; chance: number }
+export type CellAction = { color: string; chance: number; legend: string }
 export type Position = { x: number; y: number }
 
 export interface Cell {
