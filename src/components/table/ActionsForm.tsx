@@ -21,7 +21,7 @@ const ActionsForm = () => {
     removeCellAction(index)
   }
 
-  const onSubmit = (event: React.SyntheticEvent) => {
+  const onSubmit: React.FormEventHandler = (event) => {
     event.preventDefault()
     if (!chance) return
 
@@ -95,6 +95,11 @@ const ActionsForm = () => {
             </div>
           )
         })}
+      </div>
+      <div>
+        <button type="button" onClick={() => {}}>
+          Save Changes
+        </button>
       </div>
     </div>
   )
